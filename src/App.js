@@ -10,18 +10,19 @@ class App extends React.Component {
 		report: null,
 	}
 
-	handleError = () => {
-		console.log("An ERROR!")
-	}
-
 	handleReport = (city) => {
+
+		this.setState({
+			errorMessage: false,
+			report: null,
+		})
+
 		const API_KEY = 'a9f6719e37f20890ebff5d91724dec1f';
 		const BASE_URL = 'http://api.openweathermap.org/data/2.5';
 
 		axios.get(`${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`)
 		.then(response => {
 			if (response.status === 200) {
-				console.log("All is well!")
 				this.setState({
 					errorMessage: false,
 					report: response.data,
@@ -41,7 +42,7 @@ class App extends React.Component {
 
 	render() {
 		const error = this.state.errorMessage
-			? (<p>Sorry, we were unable to find your search. Did you spell it correctly?	</p>)
+			? (<p className="error-msg">Sorry, we were unable to find your search. Did you spell it correctly?	</p>)
 			: ""
 		return (
 			<div id="app">

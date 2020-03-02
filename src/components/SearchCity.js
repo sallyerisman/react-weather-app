@@ -16,7 +16,7 @@ class SearchCity extends React.Component {
         this.props.onSearch(this.state.city);
 
         this.setState({
-            city: "",
+			city: "",
         })
     }
 
@@ -29,6 +29,7 @@ class SearchCity extends React.Component {
 							type="text"
 							className="form-control form-control-lg"
 							id="city"
+							placeholder="Type in the name of a city..."
 							onChange={this.handleChange}
 							value={this.state.city}
 						/>

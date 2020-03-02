@@ -3,3 +3,9 @@ $body-color: #fefefe;
 
 @import "~bootstrap/scss/bootstrap";
 
+.error-msg {
+	background-color: lightpink;
+	color: darkred;
+	padding: 1.5rem;
+	border-radius: 5px;
+}
