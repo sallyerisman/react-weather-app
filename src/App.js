@@ -1,11 +1,31 @@
 import React from 'react';
 import SearchCity from './components/SearchCity';
 import WeatherReport from './components/WeatherReport';
+import axios from "axios"
 
 class App extends React.Component {
 	state = {
 		errorMessage: false,
 		report: null,
+	}
+
+	handleReport = (city) => {
+		const API_KEY = 'a9f6719e37f20890ebff5d91724dec1f';
+		const BASE_URL = 'http://api.openweathermap.org/data/2.5';
+
+		axios.get(`${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`)
+		.then(response => {
+			this.setState({
+				report: response.data,
+			})
+		})
+		.catch(error => {
+			console.log(error);
+		})
+	}
+
+	componentDidMount() {
+		this.handleReport();
 	}
 
 	render() {
@@ -16,12 +36,12 @@ class App extends React.Component {
 						<span role="img" aria-label="Weather?">🌦❔</span>
 					</h1>
 
-					<SearchCity />
+					<SearchCity onSearch={this.handleReport} />
 
 					{
 						this.state.report
 						? (
-							<WeatherReport />
+							<WeatherReport data={this.state.report}/>
 						)
 						: ''
 					}
