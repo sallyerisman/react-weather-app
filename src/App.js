@@ -4,9 +4,14 @@ import WeatherReport from './components/WeatherReport';
 import axios from "axios"
 
 class App extends React.Component {
+
 	state = {
 		errorMessage: false,
 		report: null,
+	}
+
+	handleError = () => {
+		console.log("An ERROR!")
 	}
 
 	handleReport = (city) => {
@@ -15,20 +20,29 @@ class App extends React.Component {
 
 		axios.get(`${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`)
 		.then(response => {
-			this.setState({
-				report: response.data,
-			})
+			if (response.status === 200) {
+				console.log("All is well!")
+				this.setState({
+					errorMessage: false,
+					report: response.data,
+				})
+			} else {
+				this.setState({
+					errorMessage: true,
+				})
+			}
 		})
 		.catch(error => {
-			console.log(error);
+			this.setState({
+				errorMessage: true
+			})
 		})
-	}
-
-	componentDidMount() {
-		this.handleReport();
 	}
 
 	render() {
+		const error = this.state.errorMessage
+			? (<p>Sorry, we were unable to find your search. Did you spell it correctly?	</p>)
+			: ""
 		return (
 			<div id="app">
 				<div className="container my-5">
@@ -41,9 +55,11 @@ class App extends React.Component {
 					{
 						this.state.report
 						? (
-							<WeatherReport data={this.state.report}/>
+							<WeatherReport data={this.state.report} />
 						)
-						: ''
+						: (
+							error
+						)
 					}
 				</div>
 			</div>
