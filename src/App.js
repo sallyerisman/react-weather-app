@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import SearchCity from './components/SearchCity';
+import WeatherReport from './components/WeatherReport';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	state = {
+		errorMessage: false,
+		report: null,
+	}
+
+	render() {
+		return (
+			<div id="app">
+				<div className="container my-5">
+					<h1 className="text-center mb-5">
+						<span role="img" aria-label="Weather?">🌦❔</span>
+					</h1>
+
+					<SearchCity />
+
+					{
+						this.state.report
+						? (
+							<WeatherReport />
+						)
+						: ''
+					}
+				</div>
+			</div>
+		)
+	}
 }
 
 export default App;
